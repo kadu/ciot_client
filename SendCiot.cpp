@@ -20,14 +20,11 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
   String key;
   String value;
   String msg;
-   //See if the connection is successful
    if (client.connect(server, 80)) {
     Serial.println(F("connected"));
-    //Construct the JSON from the array passed to the method
-    dataString = "{\"protocol\":\"v2\",\"checksum\":\"\",\"device\":\"";
+    dataString = "{\"protocol\":\"v1\",\"checksum\":\"\",\"device\":\"";
     dataString += device;
     dataString += "\",\"at\":\"now\",\"data\":{";
-    //Run through the bucle add each key-value in the array to the JSON
     for (int i=0; i<elements;i++){
       key=array[i][0];
       value=array[i][1];
@@ -40,7 +37,6 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
     dataString += "}}";
     Serial.println("\n\nDataString:\n"+dataString);
 
-    //Make an HTTP request to the CIOT server
     client.println("POST /v1/streams/new HTTP/1.1");
     client.println("Host: ciot.herokuapp.com");
     client.println("Accept: application/json");
@@ -56,7 +52,6 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
     client.println(dataString);
 
    }
-  //Store incoming data from the net connection to send back to the sketch
   while (client.available()) {
       char c = client.read();
       msg += c;
