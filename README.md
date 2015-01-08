@@ -1,12 +1,12 @@
 CIOT Client Library
 ===================
 
-This is the arduino library to easy access CIOT[http://ciot.herokuapp.com]
+This is the arduino library to easy access CIOT[http://ciot.kadu.com]
 
 Just download the zip structure and import to your arduino installation.
 
 ## Example
-# Simple example to sender data
+### Simple example to sender data
 ```js
 #include <SPI.h>
 #include <Ethernet.h>
@@ -50,5 +50,3 @@ void loop() {
   delay(10000);
 }
 ```
-
-# Send data with time

@@ -1,9 +1,11 @@
-#include "SendCiot.h"
+#include <SPI.h>
 #include <Ethernet.h>
+#include "SendCiot.h"
+
 
 String dataString = "";
 EthernetClient client;
-char server[] = "ciot.herokuapp.com";
+char server[] = "ciot.kadu.com.br";
 
 /**
     Sends an HTTP request to the CIOT system after constructing a JSON
@@ -20,11 +22,11 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
   String key;
   String value;
   String msg;
-   if (client.connect(server, 80)) {
+  if (client.connect(server, 80)) {
     Serial.println(F("connected"));
-    dataString = "{\"protocol\":\"v1\",\"checksum\":\"\",\"device\":\"";
+    dataString = "{\"device\":\"";
     dataString += device;
-    dataString += "\",\"at\":\"now\",\"data\":{";
+    dataString += "\",\"data\":{";
     for (int i=0; i<elements;i++){
       key=array[i][0];
       value=array[i][1];
@@ -35,10 +37,11 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
       }
     }
     dataString += "}}";
-    Serial.println("\n\nDataString:\n"+dataString);
+    Serial.print("\n\nDataString:\n");
+    Serial.println(dataString);
 
     client.println("POST /v1/streams/new HTTP/1.1");
-    client.println("Host: ciot.herokuapp.com");
+    client.println("Host: ciot.kadu.com.br");
     client.println("Accept: application/json");
     client.println("User-Agent: Arduino-CIOT");
     client.println("Content-Type: application/json");
@@ -52,6 +55,7 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
     client.println(dataString);
 
    }
+   delay(5);
   while (client.available()) {
       char c = client.read();
       msg += c;
@@ -61,4 +65,3 @@ String SendCiot::send(String array[][2], int elements, String apikey, String dev
   }
   return msg;
 }
-
