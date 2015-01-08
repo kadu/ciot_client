@@ -1,7 +1,7 @@
 CIOT Client Library
 ===================
 
-This is the arduino library to easy access CIOT[http://ciot.kadu.com]
+This is the arduino library to easy access CIOT[http://ciot.kadu.com.br]
 
 Just download the zip structure and import to your arduino installation.
 
